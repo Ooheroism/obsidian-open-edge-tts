@@ -2,7 +2,7 @@
 
 Open the active Markdown file in Microsoft Edge to use its built-in **Read Aloud** text-to-speech feature.
 
-[中文 README → README.zh-CN.md](README.zh-CN.md)
+[中文](README.zh-CN.md)
 
 ## Features
 
