@@ -1,9 +1,9 @@
 {
-  "id": "read-with-edge",
-  "name": "Read with Edge",
+  "id": "open-in-edge",
+  "name": "Open in Microsoft Edge",
   "version": "1.0.0",
   "minAppVersion": "0.15.0",
-  "description": "Open the active Markdown file in Microsoft Edge for built-in Read Aloud TTS playback.",
+  "description": "Opens the current active Markdown file using Microsoft Edge browser.",
   "author": "Ooheroism",
   "isDesktopOnly": true
 }
