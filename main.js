@@ -2,9 +2,9 @@ const { Plugin, FileSystemAdapter, Notice } = require('obsidian');
 const { exec } = require('child_process');
 const path = require('path'); // 引入 path 模块处理 Windows 路径
 
-module.exports = class OpenInEdgePlugin extends Plugin {
+module.exports = class ReadInEdgePlugin extends Plugin {
     async onload() {
-        // 添加左侧边栏图标 (换成了 Lucide 内置的 'external-link' 图标)
+        // 添加左侧边栏图标
         this.addRibbonIcon('external-link', '在 Edge 中打开当前文件', () => {
             this.openCurrentFileInEdge();
         });
