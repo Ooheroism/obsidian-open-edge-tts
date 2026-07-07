@@ -1,13 +1,10 @@
 /* eslint-disable */
 // @ts-check
-/**
- * @typedef {import('obsidian').Plugin} Plugin
- */
 
 class ReadWithEdgePlugin extends obsidian.Plugin {
     async onload() {
         console.log('Loading Read with Edge plugin');
-        this.addRibbonIcon('edge', 'Read with Edge', (evt: MouseEvent) => {
+        this.addRibbonIcon('edge', 'Read with Edge', (evt) => {
             const activeView = this.app.workspace.getActiveViewOfType(obsidian.MarkdownView);
             if (!activeView) {
                 console.warn('No active Markdown view');
@@ -28,15 +25,15 @@ class ReadWithEdgePlugin extends obsidian.Plugin {
                 console.warn('Could not resolve absolute path for file:', file.path);
                 return;
             }
-            const url = new URL('file:///' + fullPath.replace(/\/g, '/'));
+            const url = new URL('file:///' + fullPath.replace(/\\/g, '/'));
             const child_process = require('child_process');
-            child_process.exec(`start msedge "${url.toString()}"`);
+            child_process.exec('start msedge "' + url.toString() + '"');
         });
     }
 
     onunload() {
-        console.log('Unloading Open in Microsoft Edge plugin');
+        console.log('Unloading Read with Edge plugin');
     }
 }
 
-module.exports = OpenInEdgePlugin;
+module.exports = ReadWithEdgePlugin;
