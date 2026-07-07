@@ -6,7 +6,7 @@ Open the active Markdown file in Microsoft Edge to use its built-in **Read Aloud
 
 ## Features
 
-- One-click toolbar / ribbon icon to open the current file in Edge
+- Ribbon icon to open the current file in Edge
 - Workspace command: *Read with Edge*
 - Desktop only
 

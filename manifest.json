@@ -1,9 +1,7 @@
 {
-  "id": "open-edge-tts",
-  "name": "Open Edge TTS",
-  "version": "1.0.0",
-  "minAppVersion": "0.15.0",
-  "description": "An Obsidian plugin that opens the active Markdown file in Microsoft Edge for Read Aloud TTS playback.",
+  "id": "read-with-edge",
+  "name": "Read with Edge",
+  "description": "Open the active Markdown file in Microsoft Edge for built-in Read Aloud TTS playback.",
   "author": "Ooheroism",
   "isDesktopOnly": true
 }

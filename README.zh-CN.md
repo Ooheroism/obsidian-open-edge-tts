@@ -1,10 +1,12 @@
-# obsidian-open-edge-tts
+# Read with Edge
 
 Obsidian 插件：将当前激活的 Markdown 文件直接用 Microsoft Edge 打开，使用 Edge 自带的 Read Aloud（TTS）功能朗读内容。
 
+[English README → README.md](README.md)
+
 ## 功能
 
-- 一键工具栏/侧边栏图标，使用 Edge 打开当前文件
+- 侧边栏图标一键调用 Edge 打开当前文件
 - 工作区命令：`Read with Edge`
 - 仅桌面端可用
 
@@ -18,17 +20,17 @@ Obsidian 插件：将当前激活的 Markdown 文件直接用 Microsoft Edge 打
 
 ### 从源码安装
 
-将编译后的 `main.js` 和 `manifest.json` 放入保险库的插件目录并启用：
+将编译后的 `main.js` 和 `manifest.json` 放入 Obsidian 库的社区插件目录：
 
 ```
 <vault>/.obsidian/plugins/read-with-edge/
 ```
 
-然后在 **设置 → 社区插件** 中开启本插件。
+然后在 **设置 → 社区插件** 中开启本插件，即可看到名为 **Read with Edge** 的命令和侧边栏图标。
 
 ### 从 GitHub Releases 安装
 
-从最新 Release 下载 `main.js` 和 `manifest.json`，放到保险库的插件目录：
+从最新 Release 下载 `main.js` 和 `manifest.json`，放到插件目录：
 
 ```
 <vault>/.obsidian/plugins/read-with-edge/

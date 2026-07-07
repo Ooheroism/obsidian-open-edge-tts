@@ -4,10 +4,10 @@
  * @typedef {import('obsidian').Plugin} Plugin
  */
 
-class OpenInEdgePlugin extends obsidian.Plugin {
+class ReadWithEdgePlugin extends obsidian.Plugin {
     async onload() {
-        console.log('Loading Open in Microsoft Edge plugin');
-        this.addRibbonIcon('edge', 'Open in Microsoft Edge', (evt: MouseEvent) => {
+        console.log('Loading Read with Edge plugin');
+        this.addRibbonIcon('edge', 'Read with Edge', (evt: MouseEvent) => {
             const activeView = this.app.workspace.getActiveViewOfType(obsidian.MarkdownView);
             if (!activeView) {
                 console.warn('No active Markdown view');
