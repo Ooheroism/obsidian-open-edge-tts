@@ -14,7 +14,7 @@ Open the active Markdown file in Microsoft Edge with its built-in **Read Aloud**
 
 1. Open a Markdown note in Obsidian.
 2. Click the ribbon icon or run `Read with Edge` from the command palette.
-3. In the Edge window that opens, use `Ctrl + Shift + Right-click` → **Read aloud** to start TTS.
+3. In the Edge window that opens, use `Ctrl + Shift + U` → **Read aloud** to start TTS.
 
 ## Install
 

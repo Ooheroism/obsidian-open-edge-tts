@@ -14,7 +14,7 @@ Obsidian 插件：将当前激活的 Markdown 文件直接用 Microsoft Edge 打
 
 1. 在 Obsidian 中打开一个 Markdown 笔记。
 2. 点击侧边栏图标，或从命令面板运行 `Read with Edge`。
-3. 在打开的 Edge 窗口中，使用 `Ctrl + Shift + 右键点击` → **大声朗读** 开始文字转语音。
+3. 在打开的 Edge 窗口中，使用 `Ctrl + Shift + U` → **大声朗读** 开始文字转语音。
 
 ## 安装
 
