@@ -1,7 +1,7 @@
 {
   "id": "read-in-edge",
   "name": "Read in Edge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "0.15.0",
   "description": "Opens the current active Markdown file using Microsoft Edge browser.",
   "author": "Ooheroism",
