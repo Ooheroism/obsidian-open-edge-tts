@@ -1,6 +1,6 @@
-# Read with Edge
+# Read in Edge
 
-Open the active Markdown file in Microsoft Edge to use its built-in **Read Aloud** text-to-speech feature.
+Open the active Markdown file in Microsoft Edge with its built-in **Read Aloud** text-to-speech feature.
 
 [中文](README.zh-CN.md)
 
