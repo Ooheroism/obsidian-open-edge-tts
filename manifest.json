@@ -3,7 +3,7 @@
   "name": "Read in Edge",
   "version": "1.0.3",
   "minAppVersion": "0.15.0",
-  "description": "Opens a read-only plain-text view of the current Markdown note in a new Obsidian tab.",
+  "description": "Opens the current Markdown note as a read-only plain-text view in a new tab.",
   "author": "Ooheroism",
   "isDesktopOnly": true
 }
