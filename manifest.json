@@ -3,7 +3,7 @@
   "name": "Read in Edge",
   "version": "1.0.2",
   "minAppVersion": "0.15.0",
-  "description": "Opens the current active Markdown file using Microsoft Edge browser.",
+  "description": "Opens a read-only plain-text view of the current Markdown note in a new Obsidian tab.",
   "author": "Ooheroism",
   "isDesktopOnly": true
 }

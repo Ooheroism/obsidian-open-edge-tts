@@ -1,0 +1,13 @@
+.read-in-edge-plain-text-view {
+    overflow: auto;
+}
+
+.read-in-edge-plain-text-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5em 3em;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.8;
+    user-select: text;
+}

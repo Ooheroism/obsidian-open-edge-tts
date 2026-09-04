@@ -1,5 +1,5 @@
-const { Plugin, FileSystemAdapter, Notice } = require('obsidian');
-const { spawn } = require('child_process');
+const { Plugin, FileSystemAdapter, Notice, PluginSettingTab, Setting } = require('obsidian');
+const { spawn, execFile } = require('child_process');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -11,9 +11,20 @@ const EDGE_PATHS = [
     path.join(process.env.ProgramFiles || '', 'Microsoft', 'Edge', 'Application', 'msedge.exe'),
     path.join(process.env.LOCALAPPDATA || '', 'Microsoft', 'Edge', 'Application', 'msedge.exe')
 ];
+const READ_ALOUD_DELAY_MS = 1000;
+const DEFAULT_SETTINGS = {
+    alwaysOnTop: true,
+    language: 'zh',
+    x: 20,
+    y: 20,
+    width: 360,
+    height: 800
+};
 
 module.exports = class OpenInEdgePlugin extends Plugin {
     async onload() {
+        this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+        this.addSettingTab(new ReadInEdgeSettingTab(this.app, this));
         this.tempPages = new Map();
         this.cleanupStalePages();
 
@@ -68,6 +79,8 @@ module.exports = class OpenInEdgePlugin extends Plugin {
                     this.deleteTempPage(page.profilePath);
                     this.tempPages.delete(page.tempPath);
                 });
+                this.triggerReadAloud(activeFile.name.replace(/\.md$/i, ''));
+                this.setEdgeWindowLayout(activeFile.name.replace(/\.md$/i, ''));
                 new Notice(`已在 Edge 中打开纯文字页面: ${activeFile.name}`);
             } catch (error) {
                 new Notice(`无法生成或打开 Edge 阅读页面: ${error.message}`);
@@ -76,6 +89,23 @@ module.exports = class OpenInEdgePlugin extends Plugin {
         } else {
             new Notice('无法获取当前文件的本地系统路径。');
         }
+    }
+
+    triggerReadAloud(windowTitle) {
+        const escapedTitle = windowTitle.replace(/'/g, "''");
+        const script = `Start-Sleep -Milliseconds ${READ_ALOUD_DELAY_MS}; $shell = New-Object -ComObject WScript.Shell; if ($shell.AppActivate('${escapedTitle}')) { $shell.SendKeys('^+u') }`;
+        execFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', script], (error) => {
+            if (error) console.warn('无法自动启动 Edge 大声朗读', error.message);
+        });
+    }
+
+    setEdgeWindowLayout(windowTitle) {
+        const escapedTitle = windowTitle.replace(/'/g, "''");
+        const topMostHandle = this.settings.alwaysOnTop ? '-1' : '-2';
+        const script = `Start-Sleep -Milliseconds ${READ_ALOUD_DELAY_MS}; Add-Type @'\nusing System;\nusing System.Runtime.InteropServices;\npublic static class EdgeWindow {\n    [DllImport(\"user32.dll\")] public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);\n}\n'@; $p = Get-Process msedge | Where-Object { $_.MainWindowTitle -eq '${escapedTitle}' } | Select-Object -First 1; if ($p -and $p.MainWindowHandle -ne 0) { [EdgeWindow]::SetWindowPos($p.MainWindowHandle, [IntPtr](${topMostHandle}), ${this.settings.x}, ${this.settings.y}, ${this.settings.width}, ${this.settings.height}, 0x0040) | Out-Null }`;
+        execFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', script], (error) => {
+            if (error) console.warn('无法设置 Edge 窗口布局', error.message);
+        });
     }
 
     createTempPage(fileName, text) {
@@ -117,6 +147,62 @@ module.exports = class OpenInEdgePlugin extends Plugin {
     }
 }
 
+class ReadInEdgeSettingTab extends PluginSettingTab {
+    constructor(app, plugin) {
+        super(app, plugin);
+        this.plugin = plugin;
+    }
+
+    display() {
+        const { containerEl } = this;
+        containerEl.empty();
+        const en = this.plugin.settings.language === 'en';
+        containerEl.createEl('h2', { text: en ? 'Read in Edge Settings' : 'Read in Edge 设置' });
+
+        new Setting(containerEl)
+            .setName(en ? 'Interface language' : '界面语言')
+            .setDesc(en ? 'Choose the language used on this settings page.' : '选择设置页面使用的语言。')
+            .addDropdown((dropdown) => dropdown
+                .addOptions({ zh: '中文', en: 'English' })
+                .setValue(this.plugin.settings.language)
+                .onChange(async (value) => {
+                    this.plugin.settings.language = value;
+                    await this.plugin.saveData(this.plugin.settings);
+                    this.display();
+                }));
+
+        new Setting(containerEl)
+            .setName(en ? 'Always on top' : '始终置顶')
+            .setDesc(en ? 'Keep the Edge reading window above other windows.' : '让 Edge 阅读窗口保持在其他窗口上方。')
+            .addToggle((toggle) => toggle
+                .setValue(this.plugin.settings.alwaysOnTop)
+                .onChange(async (value) => {
+                    this.plugin.settings.alwaysOnTop = value;
+                    await this.plugin.saveData(this.plugin.settings);
+                }));
+
+        this.addNumberSetting(containerEl, en ? 'Window X coordinate' : '窗口 X 坐标', en ? 'Horizontal position of the top-left corner, in pixels.' : 'Edge 窗口左上角的水平坐标（像素）。', 'x', -2000, 10000);
+        this.addNumberSetting(containerEl, en ? 'Window Y coordinate' : '窗口 Y 坐标', en ? 'Vertical position of the top-left corner, in pixels.' : 'Edge 窗口左上角的垂直坐标（像素）。', 'y', -2000, 10000);
+        this.addNumberSetting(containerEl, en ? 'Window width' : '窗口宽度', en ? 'Edge window width, in pixels.' : 'Edge 窗口宽度（像素）。', 'width', 240, 2000);
+        this.addNumberSetting(containerEl, en ? 'Window height' : '窗口高度', en ? 'Edge window height, in pixels.' : 'Edge 窗口高度（像素）。', 'height', 300, 2000);
+    }
+
+    addNumberSetting(containerEl, name, desc, key, min, max) {
+        new Setting(containerEl)
+            .setName(name)
+            .setDesc(desc)
+            .addText((text) => text
+                .setValue(String(this.plugin.settings[key]))
+                .setPlaceholder(String(DEFAULT_SETTINGS[key]))
+                .onChange(async (value) => {
+                    const number = Math.round(Number(value));
+                    if (!Number.isFinite(number)) return;
+                    this.plugin.settings[key] = Math.min(max, Math.max(min, number));
+                    await this.plugin.saveData(this.plugin.settings);
+                }));
+    }
+}
+
 function escapeHtml(value) {
     return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
@@ -136,3 +222,5 @@ function stripMarkdown(markdown) {
     text = text.replace(/<[^>]*>/g, '').replace(/\\([\\`*{}\[\]()#+.!_>\-|])/g, '$1');
     return text.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 }
+
+/* nosourcemap */

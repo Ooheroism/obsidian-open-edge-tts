@@ -1,24 +1,22 @@
 # Read with Edge
 
-Obsidian 插件：将当前激活的 Markdown 文件转换为纯文字临时页面后用 Microsoft Edge 打开，使用 Edge 自带的 Read Aloud（TTS）功能朗读内容。原始笔记不会被修改。
+Obsidian 插件：将当前激活的 Markdown 文件转换为纯文字后，在 Obsidian 中打开只读阅读标签页。原始笔记不会被修改。
 
 [English](README.md)
 
 ## 功能
 
-- 侧边栏图标一键调用 Edge 打开当前文件
-- 工作区命令：`Read with Edge`
+- 侧边栏图标一键打开当前文件的纯文字阅读页
+- 工作区命令：`在 Obsidian 中打开纯文字阅读页`
 - 仅桌面端可用
 - 自动移除 Markdown 格式，只保留适合朗读的纯文字
-- Edge 阅读窗口关闭后自动清理临时页面
+- 阅读页在 Obsidian 新标签页中打开，并且不可编辑
 
 ## 使用方法
 
 1. 在 Obsidian 中打开一个 Markdown 笔记。
-2. 点击侧边栏图标，或从命令面板运行 `Read with Edge`。
-3. 插件会生成一个仅用于 Edge 的临时纯文字页面；原始 Markdown 笔记不会被改动。
-4. 在打开的 Edge 窗口中，使用 `Ctrl + Shift + U` → **大声朗读** 开始文字转语音。
-5. 关闭该 Edge 阅读窗口后，临时页面和临时浏览器配置会自动删除。
+2. 点击侧边栏图标，或从命令面板运行 `在 Obsidian 中打开纯文字阅读页`。
+3. 插件会在 Obsidian 中新建只读纯文字标签页；原始 Markdown 笔记不会被改动。
 
 ## 安装
 
